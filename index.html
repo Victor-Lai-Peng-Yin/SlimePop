@@ -21,25 +21,6 @@
     <div id="unity-warning"></div>
   </div>
 
-  <script>
-    window.Telegram.WebApp.ready(function () {
-        // 取得 initData
-        let initData = window.Telegram.WebApp.initData;
-
-        // 呼叫 Unity 將 initData 傳入
-        sendInitDataToUnity(initData);
-    });
-
-    function sendInitDataToUnity(initData) {
-        // 等待 Unity 載入完成
-        if (typeof unityInstance !== 'undefined' && unityInstance !== null) {
-            unityInstance.SendMessage('TelegramDataFetcher', 'ReceiveInitData', initData);
-        } else {
-            // 如果 unityInstance 尚未初始化，可以在這裡添加重試邏輯
-            console.error("Unity instance is not initialized yet.");
-        }
-    }
-  </script>
 
   <script src="index.js"></script>
 </body>

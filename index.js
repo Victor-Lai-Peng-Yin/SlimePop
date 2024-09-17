@@ -75,7 +75,7 @@ document.body.appendChild(script);
 
 function sendInitDataToUnity(initData) {
   if (unityInstanceRef) {
-    unityInstanceRef.SendMessage('GameManager', 'ReceiveInitData', initData);
+    unityInstanceRef.SendMessage('TelegramDataFetcher', 'ReceiveInitData', initData);
   } else {
     console.error("Unity instance is not initialized yet.");
   }

@@ -20,6 +20,14 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
+    <script type="text/javascript">
+      function GetTelegramInitData() {
+          var initData = window.Telegram.WebApp.initData || "No initData available";
+          
+          // Call the Unity method with the initData
+          unityInstance.SendMessage('TelegramDataFetcher', 'SetTelegramInitData', initData);
+      }
+  </script>
     <script src="index.js"></script>
   </body>
 </html>

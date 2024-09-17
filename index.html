@@ -31,7 +31,7 @@ window.Telegram.WebApp.ready(function () {
 function sendInitDataToUnity(initData) {
     // 假設 Unity 專案中有個名為 "GameManager" 的對象，並且上面有一個 C# 函數名為 "ReceiveInitData"
     if (typeof unityInstance !== 'undefined' && unityInstance !== null) {
-        unityInstance.SendMessage('GameManager', 'ReceiveInitData', initData);
+        unityInstance.SendMessage('TelegramDataFetcher', 'ReceiveInitData', initData);
     }
 }
   </script>

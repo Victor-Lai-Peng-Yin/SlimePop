@@ -20,13 +20,20 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
-    <script type="text/javascript">
-      function GetTelegramInitData() {
-          var initData = window.Telegram.WebApp.initData || "No initData available";
-          
-          // Call the Unity method with the initData
-          unityInstance.SendMessage('TelegramDataFetcher', 'SetTelegramInitData', initData);
-      }
+    <script>
+window.Telegram.WebApp.ready(function () {
+    // 取得 initData
+    let initData = window.Telegram.WebApp.initData;
+
+    // 呼叫 Unity 將 initData 傳入
+    sendInitDataToUnity(initData);
+});
+function sendInitDataToUnity(initData) {
+    // 假設 Unity 專案中有個名為 "GameManager" 的對象，並且上面有一個 C# 函數名為 "ReceiveInitData"
+    if (typeof unityInstance !== 'undefined' && unityInstance !== null) {
+        unityInstance.SendMessage('GameManager', 'ReceiveInitData', initData);
+    }
+}
   </script>
     <script src="index.js"></script>
   </body>

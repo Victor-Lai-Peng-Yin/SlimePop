@@ -1,40 +1,8 @@
-body { padding: 0; margin: 0; overflow: hidden; background: #000000; }
-#unity-container { 
-  position: fixed; 
-  width: 100%; 
-  height: 100%; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-}
-#unity-canvas { 
-  width: 27%; /* 設置為直條寬度 */
-  height: 100%; /* 設置為直條高度 */
-  background: #1F1F20; 
-}
+body { padding: 0; margin: 0 }
+#unity-container { position: fixed; width: 100%; height: 100%; }
+#unity-canvas { width: 100%; height: 100%; background: #1F1F20 }
 #unity-loading-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: none }
 #unity-logo { width: 154px; height: 130px; background: url('unity-logo-dark.png') no-repeat center }
 #unity-progress-bar-empty { margin-left: auto; margin-right: auto; width: 141px; height: 18px; margin-top: 10px; background: url('progress-bar-empty-dark.png') no-repeat center }
 #unity-progress-bar-full { width: 0%; height: 18px; margin-top: 10px; background: url('progress-bar-full-dark.png') no-repeat center }
 #unity-warning { position: absolute; left: 50%; top: 5%; transform: translate(-50%); background: white; padding: 10px; display: none }
-
-
-/* 預設樣式，適用於桌面設備 */
-
-
-/* 手機設備樣式 */
-@media (max-width: 768px) {
-  #unity-container {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #1F1F20; /* 背景顏色與畫布一致 */
-  }
-  #unity-canvas {
-    width: 100vw; /* 寬度為視窗寬度 */
-    height: 100vh; /* 高度為視窗高度 */
-    object-fit: cover; /* 保持畫布的比例 */
-  }
-}
-

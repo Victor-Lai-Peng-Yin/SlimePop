@@ -20,6 +20,18 @@
       <div id="unity-warning"> </div>
     </div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+      window.onload = function() {
+        // 初始化 Telegram WebApp
+        Telegram.WebApp.ready();
+    
+        // 獲取 initData 並傳遞給 Unity
+        var initData = Telegram.WebApp.initData;
+
+      console.log("hello world");
+      };
+    
+    </script>
     <script src="index.js"></script>
   </body>
 </html>

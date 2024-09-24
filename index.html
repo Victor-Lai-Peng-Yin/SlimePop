@@ -7,8 +7,6 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
-    <!-- 引入 UnityLoader.js -->
-    <script src="Build/UnityLoader.js"></script>
   </head>
   <body>
     <div id="unity-container">
@@ -21,36 +19,7 @@
       </div>
       <div id="unity-warning"> </div>
     </div>
-    
-    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
-    <script>
-      var unityInstance = null;
-
-      window.onload = function() {
-        Telegram.WebApp.ready();
-        var initData = Telegram.WebApp.initData;
-        SendAuthDataToUnity(initData);
-      };
-
-      function SendAuthDataToUnity(initData) {
-          if (!unityInstance) {
-              unityInstance = window.UnityLoader.instantiate("unity-container", "Build/WebGLBuild.json", {
-                  onProgress: UnityProgress,
-                  Module: {
-                      onRuntimeInitialized: function() {
-                          // 確保 Unity 加載完成後調用
-                          unityInstance.SendMessage('JsonExample', 'ReceiveInitData', initData);
-                      }
-                  }
-              });
-          } else {
-              unityInstance.SendMessage('JsonExample', 'ReceiveInitData', initData);
-          }
-      }
-    </script>
-
     <script src="index.js"></script>
   </body>
 </html>

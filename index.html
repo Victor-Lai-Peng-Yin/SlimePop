@@ -1,82 +1,67 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Unityproject</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
-  </head>
-  <body>
+</head>
+<body>
     <div id="unity-container">
-      <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
+        <canvas id="unity-canvas" width="1080" height="1920" tabindex="-1"></canvas>
+        <div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
         </div>
-      </div>
-      <div id="unity-warning"> </div>
+        <div id="unity-warning"></div>
     </div>
+
+    <!-- 加载 Telegram WebApp 脚本 -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- 加载 Unity WebGL 脚本 -->
+    <script src="Build/UnityLoader.js"></script>
+
     <script>
-      window.onload = function() {
+    var unityInstance;
+
+    window.onload = function() {
         // 初始化 Telegram WebApp
         Telegram.WebApp.ready();
-    
-        // 獲取 initData 並傳遞給 Unity
-        var initData = Telegram.WebApp.initData;
 
-      <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | Unityproject</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="manifest" href="manifest.webmanifest">
-  </head>
-  <body>
-    <div id="unity-container">
-      <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-    </div>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-      window.onload = function() {
-        // 初始化 Telegram WebApp
-        Telegram.WebApp.ready();
-    
-        // 獲取 initData 並傳遞給 Unity
+        // 获取 initData 并传递给 Unity
         var initData = Telegram.WebApp.initData;
+        console.log("initData is " + initData);
 
-      console.log("initdata is"+initData);
-      SendAuthDataToUnity(initData);
-      };
-      function SendAuthDataToUnity(initData) {
-    // 獲取 Unity 遊戲對象
-    var unityInstance = unityInstance || window.UnityLoader.instantiate("unityContainer", "Build/WebGLBuild.json");
-    
-    // 調用 Unity C# 中的函數並將 initData 傳遞給它
-    unityInstance.SendMessage('JsonExample', 'ReceiveInitData', initData);
-  }
-    
+        // 初始化 Unity 实例
+        unityInstance = UnityLoader.instantiate("unity-canvas", "Build/WebGLBuild.json", {
+            onProgress: UnityProgress
+        });
+
+        // 等待 Unity 实例加载完成后，再发送 initData
+        unityInstance.then(function() {
+            SendAuthDataToUnity(initData);
+        }).catch(function(error) {
+            console.error("Unity instance failed to load:", error);
+        });
+    };
+
+    function SendAuthDataToUnity(initData) {
+        if (unityInstance) {
+            // 调用 Unity 的 C# 函数
+            unityInstance.SendMessage('JsonExample', 'ReceiveInitData', initData);
+        } else {
+            console.error("Unity instance not ready");
+        }
+    }
+
+    function UnityProgress(unityInstance, progress) {
+        document.getElementById("unity-progress-bar-full").style.width = (progress * 100) + "%";
+    }
     </script>
-    <script src="index.js"></script>
-  </body>
+</body>
 </html>
 
-      };
-    
-    </script>
-    <script src="index.js"></script>
-  </body>
-</html>

@@ -22,6 +22,7 @@
 
     <!-- 加载 Telegram WebApp 脚本 -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <!-- 加载 Unity WebGL 脚本 -->
     <script src="Build/Build.loader.js"></script>
 
@@ -36,16 +37,20 @@
         var initData = Telegram.WebApp.initData;
         console.log("initData is " + initData);
 
-        // 初始化 Unity 实例
-        unityInstance = UnityLoader.instantiate("unity-canvas", "Build/WebGLBuild.json", {
-            onProgress: UnityProgress
-        });
-
-        // 等待 Unity 实例加载完成后，再发送 initData
-        unityInstance.then(function() {
+        // 初始化 Unity 实例，使用 Build.loader.js
+        createUnityInstance(document.querySelector("#unity-canvas"), {
+            dataUrl: "Build/WebGLBuild.data",
+            frameworkUrl: "Build/WebGLBuild.framework.js",
+            codeUrl: "Build/WebGLBuild.wasm",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "YourCompanyName",
+            productName: "YourProductName",
+            productVersion: "1.0"
+        }).then(function (unityInstance) {
+            // Unity 实例加载完成后，传递 Telegram 的 initData
             SendAuthDataToUnity(initData);
-        }).catch(function(error) {
-            console.error("Unity instance failed to load:", error);
+        }).catch(function (message) {
+            console.error(message);
         });
     };
 
@@ -56,10 +61,6 @@
         } else {
             console.error("Unity instance not ready");
         }
-    }
-
-    function UnityProgress(unityInstance, progress) {
-        document.getElementById("unity-progress-bar-full").style.width = (progress * 100) + "%";
     }
     </script>
 </body>

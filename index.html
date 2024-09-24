@@ -59,7 +59,15 @@
         var initData = Telegram.WebApp.initData;
 
       console.log("initdata is"+initData);
+      SendAuthDataToUnity(initData);
       };
+      function SendAuthDataToUnity(initData) {
+    // 獲取 Unity 遊戲對象
+    var unityInstance = unityInstance || window.UnityLoader.instantiate("unityContainer", "Build/WebGLBuild.json");
+    
+    // 調用 Unity C# 中的函數並將 initData 傳遞給它
+    unityInstance.SendMessage('GameManager', 'ReceiveInitData', initData);
+  }
     
     </script>
     <script src="index.js"></script>

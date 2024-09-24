@@ -78,7 +78,7 @@ document.body.appendChild(script);
 function SendAuthDataToUnity(initData) {
   if (unityInstanceRef) {
     // 傳遞數據給 Unity C# 函數
-    unityInstanceRef.SendMessage('JsonExample', 'ReceiveInitData', initData);
+    unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
   } else {
     console.error("Unity instance not ready");
   }

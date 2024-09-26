@@ -81,55 +81,23 @@ function SendAuthDataToUnity(initData) {
     var userData = JSON.parse(urlParams.get('user'));
 
     var userDataJson = JSON.stringify(userData);
-
+    
+    // Fetch the user profile picture URL
+    var profilePhotoUrl = userData.photo_url; // Assuming the photo URL is available in userData
+    
     console.log("Parsed user data: ", userData);
     console.log("User data JSON string: ", userDataJson);
-
+    
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
-
-    // 使用 Telegram API 來獲取頭像
-    const userId = userData.id; 
-    const botToken = '7301235139:AAGj60uaZRZvVxpg2Esc2A_QsDrPpsw27D0'; 
-    const url = `https://api.telegram.org/bot${botToken}/getUserProfilePhotos?user_id=${userId}&limit=1`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        if (data.ok && data.result.photos.length > 0) {
-          const fileId = data.result.photos[0][0].file_id;
-          getFileUrl(fileId);
-        } else {
-          console.log('No profile photos found.');
-        }
-      })
-      .catch(error => console.error('Error fetching user profile photos:', error));
+    
+    if (profilePhotoUrl) {
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', profilePhotoUrl);
+    }
   } else {
     console.error("Unity instance not ready");
   }
 }
-
-function getFileUrl(fileId) {
-  const botToken = '7301235139:AAGj60uaZRZvVxpg2Esc2A_QsDrPpsw27D0'; 
-  const getFileUrl = `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`;
-  
-  fetch(getFileUrl)
-    .then(response => response.json())
-    .then(data => {
-      if (data.ok) {
-        const filePath = data.result.file_path;
-        const profilePicUrl = `https://api.telegram.org/file/bot${botToken}/${filePath}`;
-        console.log('Profile picture URL:', profilePicUrl);
-
-        // 傳遞頭像 URL 給 Unity
-        unityInstanceRef.SendMessage('JsonObject', 'ReceiveProfilePictureUrl', profilePicUrl);
-      } else {
-        console.log('Failed to get file URL.');
-      }
-    })
-    .catch(error => console.error('Error fetching file URL:', error));
-}
-
 
 
 

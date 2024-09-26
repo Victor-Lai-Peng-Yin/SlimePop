@@ -76,12 +76,18 @@ createUnityInstance(canvas, config, (progress) => {
 document.body.appendChild(script);
 
 function SendAuthDataToUnity(initData) {
-var userData = parseInitData(initData);
-var userDataJson = JSON.stringify(userData);
+
 if (unityInstanceRef) {
   // 傳遞數據給 Unity C# 函數
+  var urlParams = new URLSearchParams(initData);
+  var userData = JSON.parse(urlParams.get('user'));
+
+  var userDataJson = JSON.stringify(userData);
+
+  console.log("Parsed user data: ", userData);
+  console.log("User data JSON string: ", userDataJson);
   unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
-  unityInstance.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
+  unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
 } else {
   console.error("Unity instance not ready");
 }

@@ -66,8 +66,8 @@ createUnityInstance(canvas, config, (progress) => {
   // 當 Unity 加載完成後，將 Telegram 的 initData 傳給 Unity
   Telegram.WebApp.ready();
   var initData = Telegram.WebApp.initData;
-  var user = Telegram.WebApp.user;
-  console.log("user is " + Telegram.WebApp.user);
+  var user = Telegram.WebApp.getUser();
+  console.log("user is " + user);
   
   if (user && user.photo_url) {
     var photolink = user.photo_url;

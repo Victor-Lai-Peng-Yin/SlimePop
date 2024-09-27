@@ -83,14 +83,21 @@ function SendAuthDataToUnity(initData) {
     var userData = JSON.parse(urlParams.get('user'));
 
     var userDataJson = JSON.stringify(userData);
-  
+    
+    // Fetch the user profile picture URL
+
     
     console.log("Parsed user data: ", userData);
     console.log("User data JSON string: ", userDataJson);
     
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
-    
+
+  } 
+  else 
+  {
+    console.error("Unity instance not ready");
+  }
 }
 
 

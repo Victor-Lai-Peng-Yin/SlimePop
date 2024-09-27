@@ -67,6 +67,7 @@ createUnityInstance(canvas, config, (progress) => {
   Telegram.WebApp.ready();
   var initData = Telegram.WebApp.initData;
   var user = Telegram.WebApp.user;
+  console.log("user is " + Telegram.WebApp.user);
   
   if (user && user.photo_url) {
     var photolink = user.photo_url;

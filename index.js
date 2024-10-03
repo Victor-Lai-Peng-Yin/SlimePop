@@ -68,7 +68,6 @@ createUnityInstance(canvas, config, (progress) => {
   var initData = Telegram.WebApp.initData;
   var initDataUnsafe = Telegram.WebApp.initDataUnsafe;
   console.log("initData is " + initData);
-  console.log("PHOTO:" +Telegram.WebApp.initDataUnsafe.user.photo_url )
   SendAuthDataToUnity(initData);
   
 }).catch((message) => {
@@ -87,8 +86,10 @@ function SendAuthDataToUnity(initData) {
     // Fetch the user profile picture URL
     var profilePhotoUrl = userData.photo_url; // Assuming the photo URL is available in userData
     
+    
     console.log("Parsed user data: ", userData);
     console.log("User data JSON string: ", userDataJson);
+    console.log("photo is " + profilePhotoUrl);
     
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);

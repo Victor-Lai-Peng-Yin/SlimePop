@@ -68,7 +68,7 @@ createUnityInstance(canvas, config, (progress) => {
   var initData = Telegram.WebApp.initData;
   var initDataUnsafe = Telegram.WebApp.initDataUnsafe;
   console.log("initData is " + initData);
-  console.log(JSON.stringify(initData.user, null, 2))
+  console.log("PHOTO:" +initData.user.photo_url )
   SendAuthDataToUnity(initData);
   
 }).catch((message) => {

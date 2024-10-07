@@ -1,4 +1,4 @@
-const cacheName = "DefaultCompany-Unityproject-1.1"; // 每次發布新版本時更新這個版本號
+const cacheName = "DefaultCompany-Unityproject-1.1"; // 每次发布新版本时更新这个版本号
 const contentToCache = [
     "Build/Build.loader.js",
     "Build/Build.framework.js.unityweb",
@@ -7,7 +7,7 @@ const contentToCache = [
     "TemplateData/style.css"
 ];
 
-// 安裝階段 - 緩存指定的資源
+// 安装阶段 - 缓存指定的资源
 self.addEventListener('install', function (e) {
     console.log('[Service Worker] Installing new version...');
     
@@ -17,11 +17,11 @@ self.addEventListener('install', function (e) {
         await cache.addAll(contentToCache);
     })());
 
-    // 強制跳過等待，立即啟用新版本
+    // 强制跳过等待，立即启用新版本
     self.skipWaiting();
 });
 
-// 激活階段 - 清理舊的緩存
+// 激活阶段 - 清理旧的缓存
 self.addEventListener('activate', function (e) {
     console.log('[Service Worker] Activating new version...');
     
@@ -37,32 +37,38 @@ self.addEventListener('activate', function (e) {
         );
     })());
 
-    // 立即取得控制權，讓新的 Service Worker 生效
+    // 立即取得控制权，让新的 Service Worker 生效
     return self.clients.claim();
 });
 
-// 攔截網絡請求並提供緩存或從網絡獲取最新資源
+// 拦截网络请求并提供缓存或从网络获取最新资源
 self.addEventListener('fetch', function (e) {
+    // 只缓存 GET 请求，跳过 POST 请求
+    if (e.request.method !== 'GET') {
+        return;
+    }
+
     e.respondWith((async function () {
         const cache = await caches.open(cacheName);
         
         try {
-            // 嘗試從緩存中匹配請求
+            // 尝试从缓存中匹配请求
             let response = await caches.match(e.request);
             if (response) {
                 console.log(`[Service Worker] Serving from cache: ${e.request.url}`);
                 return response;
             }
 
-            // 如果不在緩存中，從網絡獲取並更新緩存
+            // 如果不在缓存中，从网络获取并更新缓存
             response = await fetch(e.request);
             cache.put(e.request, response.clone());
             console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
             return response;
         } catch (error) {
             console.log(`[Service Worker] Fetch failed; returning offline page instead.`);
-            // 當網絡請求失敗時可以考慮返回一個離線頁面
+            // 当网络请求失败时可以考虑返回一个离线页面
             return new Response('You are offline.');
         }
     })());
 });
+

@@ -43,7 +43,7 @@ productVersion: "1.0",
 showBanner: unityShowBanner,
 };
 
-// 手機設備設定
+
 if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
 var meta = document.createElement('meta');
 meta.name = 'viewport';
@@ -53,7 +53,7 @@ document.getElementsByTagName('head')[0].appendChild(meta);
 
 loadingBar.style.display = "block";
 
-// 加載 Unity WebGL 並初始化 Telegram
+
 var script = document.createElement("script");
 script.src = loaderUrl;
 script.onload = () => {
@@ -63,7 +63,6 @@ createUnityInstance(canvas, config, (progress) => {
   unityInstanceRef = unityInstance;
   loadingBar.style.display = "none";
 
-  // 當 Unity 加載完成後，將 Telegram 的 initData 傳給 Unity
   Telegram.WebApp.ready();
   var initData = Telegram.WebApp.initData;
   var initDataUnsafe = Telegram.WebApp.initDataUnsafe;
@@ -80,8 +79,6 @@ function openInvoiceInTelegram(invoiceLink) {
   window.Telegram.WebApp.openInvoice(invoiceLink, function(status) {
       if (status === "paid") {
           console.log("Payment was successful!");
-          // 可以在这里执行其他逻辑，例如通知服务器更新余额或用户状态
-          // 调用 Unity 处理后续的逻辑
           SendMessage("JsonObject", "OnPaymentSuccess", "Payment was successful");
       } else {
           console.log("Payment failed or canceled.");

@@ -20,6 +20,16 @@
       <div id="unity-warning"></div>
     </div>
 
+    <!-- Hard Refresh 的 JavaScript -->
+    <script type="text/javascript">
+        window.onload = function() {
+            // Force a hard refresh by appending a unique timestamp to the URL
+            if (!window.location.href.includes('refreshed')) {
+                window.location.href = window.location.href.split('?')[0] + '?refreshed=' + new Date().getTime();
+            }
+        };
+    </script>
+
     <!-- Telegram WebApp 初始化 -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     

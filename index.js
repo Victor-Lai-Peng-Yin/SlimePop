@@ -88,32 +88,32 @@ function openInvoiceInTelegram(invoiceLink) {
 
 function SendAuthDataToUnity(initData) {
   if (unityInstanceRef) {
-    // 解析 initData 查詢參數
+    // 解析 initData 中的參數
     var urlParams = new URLSearchParams(initData);
-    
-    // 確認是否包含 startapp 值
-    var startAppValue = urlParams.get('startapp');
-    console.log("startapp value: ", startAppValue);
 
-    // 獲取用戶數據（如果存在）
-    var userData = JSON.parse(urlParams.get('user') || '{}');
-    var userDataJson = JSON.stringify(userData);
+    // 獲取 start_param 的值
+    var startParamValue = urlParams.get('start_param');
+    console.log("start_param value: ", startParamValue);
 
-    console.log("Parsed user data: ", userData);
+    // 解析 user 數據（如果存在）
+    var userDataJson = urlParams.get('user');
     console.log("User data JSON string: ", userDataJson);
 
     // 傳遞數據到 Unity
     unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData', initData);
-    unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
-
-    // 傳遞 startapp 值到 Unity
-    if (startAppValue) {
-      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startAppValue);
+    if (userDataJson) {
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveInitData2', userDataJson);
+    }
+    if (startParamValue) {
+      unityInstanceRef.SendMessage('JsonObject', 'ReceiveStartAppValue', startParamValue);
     }
 
-    // 如果有用戶圖片 URL，傳遞到 Unity
-    if (userData.photo_url) {
-      unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
+    // 獲取用戶圖片 URL 並傳遞到 Unity（如果存在）
+    if (userDataJson) {
+      var userData = JSON.parse(decodeURIComponent(userDataJson));
+      if (userData.photo_url) {
+        unityInstanceRef.SendMessage('JsonObject', 'ReceiveUserPhoto', userData.photo_url);
+      }
     }
   } else {
     console.error("Unity instance not ready");

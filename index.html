@@ -29,6 +29,26 @@
             }
         };
     </script>
+    <script>
+      // 定義全局 JavaScript 方法
+      mergeInto(LibraryManager.library, {
+          CopyToClipboard: function (textPointer) {
+              const text = UTF8ToString(textPointer); // 將 Unity 傳入的 UTF8 指針轉換為字符串
+              if (!navigator.clipboard) {
+                  console.log("Clipboard API is not supported!");
+                  return;
+              }
+  
+              navigator.clipboard.writeText(text).then(() => {
+                  console.log("Copied to clipboard: " + text);
+                  alert("已複製到剪貼簿!");
+              }).catch(err => {
+                  console.error("Failed to copy text: ", err);
+                  alert("複製失敗!");
+              });
+          }
+      });
+  </script>
 
     <!-- Telegram WebApp 初始化 -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>

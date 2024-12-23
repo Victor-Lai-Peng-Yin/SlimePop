@@ -85,7 +85,6 @@ function openInvoiceInTelegram(invoiceLink) {
       }
   });
 }
-
 function SendAuthDataToUnity(initData) {
   if (unityInstanceRef) {
     // 解析 initData 中的參數
